@@ -8,33 +8,37 @@ def main():
   #Get data from an external API
   response = requests.get("http://178.128.144.132/data/")
 
-  #open file to write to
-  #store ZIPs and Phones in a local file.
-  # format should be a valid ID ZIP PHONE on each line
-  out_file = open("results.csv", "w")
-
-  print("Writing JSON to file.")
-  for obj in response.json():
-    #print(obj)
-    
-    #TODO: validate before write.
-    #Valid module contains static validation method stubs
-
-    #zip is located in obj[3]
-    if not Valid.zip(obj[3]):
-      continue
-    
-    #phone is in obj[4]
-    if not Valid.phone(obj[4]):
-      continue
-
-    line = obj[0] + " " + obj[3] + " " + obj[4] + '\n'
-
-    out_file.write(line)
+  if response.status_code != 200: # testing to see if i am getting the data
+    print("failed to get data")
+    return
   
-  print("Done.")
+  data = response.json()
+  header = data[0]
 
-  return #end main
+  with open("results.csv", "w", encoding="utf-8") as out_file: # added utf8 because google says it will help with encoding issues
+    out_file.write(f"{header}\n")
+
+    for obj in data[1:]:
+      #proper # of fields
+      if len(obj) < 5:
+        out_file.write(f"invalid entry, not enough fields: {obj}\n")
+        continue
+
+      #zip validation
+      if not Valid.zip(obj[3]):
+        out_file.write(f"invalid ZIP: {obj[3]}\n")
+        continue
+
+      #phone validation
+      if not Valid.phone(obj[4]):
+        out_file.write(f"invalid phone: + {obj[4]}\n")
+        continue
+
+      # valid entry
+      line = obj[0] + " " + obj[3] + " " + obj[4] + '\n'
+      out_file.write(line)
+    
+    out_file.write("done")
 
 if __name__ == '__main__':
   main()
