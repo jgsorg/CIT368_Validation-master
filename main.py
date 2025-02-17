@@ -1,9 +1,6 @@
 import requests
 from Valid import Valid
 
-'''
-Wi
-'''
 def main():
   #Get data from an external API
   response = requests.get("http://178.128.144.132/data/")
@@ -16,7 +13,7 @@ def main():
   header = data[0]
 
   with open("results.csv", "w", encoding="utf-8") as out_file: # added utf8 because google says it will help with encoding issues
-    out_file.write(f"{header}\n")
+    out_file.write(f"valid / invalid zip codes and phone numbers. \n")
 
     for obj in data[1:]:
       #proper # of fields
