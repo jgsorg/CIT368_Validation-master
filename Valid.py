@@ -13,11 +13,14 @@ class Valid:
   @staticmethod
   def zip(input):
     #length?
-
+    if len(input) != 5:
+        return False
     #digits?
-
+    if not input.isdigit():
+        return False
     #real ZIP?
-    
+    if not re.match(r"^\d{5}$", input):
+        return False
     return True
   
   """
