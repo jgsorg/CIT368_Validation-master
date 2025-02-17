@@ -35,13 +35,14 @@ class Valid:
   @staticmethod
   def phone(input):
     #length?
-
-    #digits?
-
-    #format?
-
-    #real number?
-    
+    if len(input) < 10 or len(input) > 20: # works for international numbers too (i think)
+       return False
+    #format
+    phone_regex = r"^\+?(\d{1,3})?[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$"
+    if not re.match(phone_regex, input):
+        return False
+    #diigt check
+    digits_only = re.sub(r"\D", "", input)
+    if len(digits_only) < 10:
+        return False
     return True
-
-    #testing commits
