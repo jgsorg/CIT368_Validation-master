@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS Form</title>
+  <style>
+    *{font-family: Arial, Helvetica, sans-serif; font-size:1.1em;font-weight:bold;}
+    div{margin:25px 5px;}
+    .form span{display:block;margin-bottom:25px;}
+    input{height:2em;}
+    .red{color:red;}
+    .green{color:green;}
+  </style>
+</head>
+<body>
+  <div>
+    <p></p>
+  </div>
+
+  <div class="form">
+    <span>Enter your name<br>
+      <input id="in1" type="text">
+    </span>
+
+    <span>Enter your age<br>
+      <input id="in2" type="text">
+    </span>
+
+    <input id="su1" type="submit">
+  </div>
+
+  <div>
+    <span id="re1"></span>
+    <span id="re2"></span>
+  </div>
+
+  <script>
+    const DEBUG = false;
+
+    document.getElementById("su1").addEventListener("click", (event) => {
+      if(DEBUG)console.log('working');
+
+      let user_name = document.getElementById("in1").value;
+      let user_age = document.getElementById("in2").value;
+      if(DEBUG)console.log(user_name);
+
+      let result_name = document.getElementById("re1");
+      let result_age = document.getElementById("re2");
+      
+      result_name.innerHTML = user_name + (is_name_valid(user_name) ?  " <span class='green'>is</span> " : " <span class='red'>is not</span> ") + "a valid name.";
+      result_age.innerHTML = user_age + (is_age_valid(user_age) ?  " <span class='green'>is</span> " : " <span class='red'>is not</span> ") + "a valid age.";
+    });
+
+    //TODO: Improve this function to allow names but stop anything that isn't a name.
+    function is_name_valid(input){
+      if(input.substr("script") > -1)
+        return false;
+
+      if(input.substr("iframe") > -1)
+        return false;
+      
+      return true;
+    }
+
+    //TODO: Implement this method to allow age and stop anything else.
+    function is_age_valid(input){
+      return true;
+    }
+  </script>
+</body>
+</html>
